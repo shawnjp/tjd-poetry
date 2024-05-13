@@ -20,16 +20,17 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span style={{ fontWeight: 'bold', color: '#FFF', textShadow: '0 0 8px rgba(0,0,0,0.6)' }}>By</span>
+            By{" "}
             {/* logo */}
             <Image
               src="/tjd-logo.png"
               alt="TJD Poetry Logo"
               className="dark:invert spin-slow"
+              layout="responsive"
               width={100}
               height={24}
               priority
-              sizes="(max-width: 768px) 50vw, 100px"
+              sizes="(max-width: 50px) 100vw, 100px"
             />
           </a>
         </div>
