@@ -20,7 +20,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By{" "}
+            <span style={{ fontWeight: 'bold', color: '#FFF', textShadow: '0 0 8px rgba(0,0,0,0.6)' }}>By</span>
             {/* logo */}
             <Image
               src="/tjd-logo.png"
