@@ -17,6 +17,7 @@
 }
 
 body {
+  font-family: 'Gabriola', 'Times New Roman', serif;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
