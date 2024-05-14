@@ -1,10 +1,10 @@
 import Image from "next/image";
 import PrideFlag, { gradient } from './components/inclusivePrideFlagColors'; 
 import SocialMediaIcons from './components/socialMediaIcons';
-import { UserButton } from "@clerk/nextjs";
+import { SignInButton, SignOutButton } from '@clerk/nextjs';
+
 
 export default function Home() {
-  
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <PrideFlag style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }} />
@@ -17,9 +17,7 @@ export default function Home() {
         </p>
         <SocialMediaIcons />
           <div className="signInButtonContainer">
-         
-        <UserButton />
-          
+            <SignInButton mode="modal" />
           </div>
         </div>
 
