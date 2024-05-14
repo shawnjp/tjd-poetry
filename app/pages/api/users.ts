@@ -26,13 +26,14 @@ const userSchema = new mongoose.Schema({
 });
 
 // Create the model if it doesn't already exist
-const User = mongoose.models.User || mongoose.model('User', userSchema);
+const User = mongoose.models.User || mongoose.model('User', userSchema );
 
 // Handler for creating a new user
 const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const newUser = new User({
       name: req.body.name,
+      email: req.body.email, 
       clerkUserId: req.body.clerkUserId,
       isAdmin: req.body.isAdmin || false
     });
