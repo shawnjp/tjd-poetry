@@ -1,76 +1,61 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import mongoose from 'mongoose';
-import connectDB from '../../lib/db'; // Ensure this path is correct
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { connectToDatabase } from '../../lib/mongodb';
+import { ObjectId } from 'mongodb';
 
-// Initialize the database connection
-connectDB();
+type Data = Record<string, unknown>
 
-// Define the User model schema if not already defined elsewhere
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  },
-  clerkUserId: {
-    type: String,
-    required: true
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false
-  }
-});
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) {
 
-// Create the model if it doesn't already exist
-const User = mongoose.models.User || mongoose.model('User', userSchema );
+  const db = await connectToDatabase('dev');
 
-// Handler for creating a new user
-const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const newUser = new User({
-      name: req.body.name,
-      email: req.body.email, 
-      clerkUserId: req.body.clerkUserId,
-      isAdmin: req.body.isAdmin || false
-    });
-    await newUser.save();
-    res.status(201).json(newUser);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: 'An unexpected error occurred' });
-    }
-  }
-};
-
-// Handler for fetching all users
-const getUsers = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const users = await User.find({});
-    res.status(200).json(users);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: 'An unexpected error occurred' });
-    }
-  }
-};
-
-// Main handler function to route requests based on the method
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
-    case 'GET':
-      return getUsers(req, res);
-    case 'POST':
-      return createUser(req, res);
-    default:
-      res.setHeader('Allow', ['GET', 'POST']);
-      res.status(405).end(`Method ${req.method} Not Allowed`);
+    case 'GET': {
+      if (!req.query.id) {
+        res.status(400).json({ message: 'User ID is required' });
+        return;
+      }
+      // Assuming id is a string and not an ObjectId.
+      const user = await db.collection('users').findOne({ _id: new ObjectId(req.query.id as string) });
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+      break;
+    }
+    case 'POST': {
+      // Handle POST request
+      const newUser = {
+        ...req.body,
+        createdAt: new Date(),
+      }
+      const result = await db.collection('users').insertOne(newUser);
+      console.log('result: ', result);
+      
+      res.status(201).json({insertedId: result.insertedId});
+      break;
+    }
+    case 'PUT':{
+      // Handle PUT request
+      const updateResult = await db.collection('users').updateOne(
+        { _id: new ObjectId(req.query.id as string) },
+        { $set: req.body }
+      );
+      res.status(200).json({ matchedCount: updateResult.matchedCount, modifiedCount: updateResult.modifiedCount });
+      break;}
+
+      case 'DELETE': {
+        // Handle DELETE request
+        const deleteResult = await db.collection('users').deleteOne({ _id: new ObjectId(req.query.id as string) });
+        res.status(200).json({ deletedCount: deleteResult.deletedCount });
+        break;
+      }
+      default:
+        res.status(405).end(); // Method Not Allowed
+        break;
+    }
   }
-}
