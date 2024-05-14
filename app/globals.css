@@ -47,4 +47,10 @@ body {
   .spin-slow {
     animation: spin 20s linear infinite;
   }
+  .signInButtonContainer {
+    padding: 16px 16px;
+    background-color: rgb(187, 1, 244);
+    border-radius: 5px;
+    display: flex; /* or flex, depending on your layout needs */
+  }
 }
