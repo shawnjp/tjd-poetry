@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { connectToDatabase } from '../../lib/mongodb';
+import { connectToDatabase } from '../lib/mongodb';
 import { ObjectId } from 'mongodb';
 
 type Data = Record<string, unknown>
@@ -14,6 +14,7 @@ export default async function handler(
 
   switch (req.method) {
     case 'GET': {
+      console.log('GET request received with ID:', req.query.id);
       if (!req.query.id) {
         res.status(400).json({ message: 'User ID is required' });
         return;
