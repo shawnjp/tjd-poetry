@@ -4,7 +4,7 @@ import Layout from './Layout';
 import '../styles/globals.css';
 import { useRouter } from 'next/router'; // Import useRouter
 
-const publicPages = ['/signin', '/signup'];
+const publicPages = ['/signin', '/signup', '/index'];
 
 function MyApp({ Component, pageProps }: AppProps & ClerkProviderProps) {
   const { pathname } = useRouter(); // Use useRouter to get the current pathname
