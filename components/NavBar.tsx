@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react";
+import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react"; 
+import SocialMediaIcons from './socialMediaIcons';
 
 const NavBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -10,7 +10,7 @@ const ThreadsIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 const SocialMediaIcons = () => {
   return (
-    <div className="flex space-x-4 p-2 rounded-lg shadow-inner" style={{ background: gradient }}> {/* Apply the gradient here */}
+    <div className="flex space-x-4 p-2 rounded-lg shadow-inner" >
       <a href="https://www.instagram.com/tjdpoetry/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-pink-600">
         <FaInstagram size={24} className="p-1 bg-white rounded-full shadow" />
       </a>
