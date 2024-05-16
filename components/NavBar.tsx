@@ -22,21 +22,21 @@ const NavBar: React.FC = () => {
   return (
     <div className="navbar-container" style={{ 
       position: 'fixed', 
-      left: 0, 
+      right: 0, 
       top: 0,
-      height: '100vh',
-      width: '50 px',
+      height: '50px',
+      width: 'auto',
       display: 'flex', // Use flexbox
-      flexDirection: 'column', // Stack children vertically
+      flexDirection: 'row', // Stack children vertically
       alignItems: 'center', // Center children horizontally
-      justifyContent: 'right',
+      justifyContent: 'flex-end',
     }}>
       <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
         Menu
       </button>
       <nav className={`${isOpen ? 'block' : 'hidden'} md:block`}>
         <div className="button-container">
-          <ul className="flex flex-col md:flex-col md:space-x-4 w-full">
+          <ul className="flex flex-row md:flex-row md:space-x-4 w-full">
             <li className="flex-1">
               <button className="menu-button" onClick={() => navigate('/')}>
                 Home
@@ -56,10 +56,14 @@ const NavBar: React.FC = () => {
         </div>
       </nav>
       <SignedIn>
-        <UserButton />  
+        <div className="user-button-large">
+          <UserButton />  
+        </div>
       </SignedIn>
       <SignedOut>
-        <SignInButton mode="modal"/>  
+        <div className="user-button-large">
+          <SignInButton mode="modal"/> 
+        </div> 
       </SignedOut>
     </div>    
   );
