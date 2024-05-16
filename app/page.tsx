@@ -17,6 +17,7 @@ export default function Home() {
         </p>
         <SocialMediaIcons />
         <UserButton/>
+        <SignInButton/>
 
         </div>
 

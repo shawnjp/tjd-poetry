@@ -1,6 +1,6 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { connectToDatabase } from './../lib/mongodb';  
+import { connectToDatabase } from '../../lib/mongodb';  
 import { ObjectId } from 'mongodb';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   switch (req.method) {
     case 'GET': {
-      console.log('GET request received with ID:', req.query.id);
       if (!req.query.id) {
         res.status(400).json({ message: 'User ID is required' });
         return;
@@ -17,16 +16,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const id = new ObjectId(req.query.id as string);
         const user = await db.collection('users').findOne({ _id: id });
-        console.log('Fetched user data:', user);
-    
         if (user) {
           res.status(200).json({ user, isInDb: true });
         } else {
-          console.log('User not found');
           res.status(404).json({ message: 'User not found' });
         }
       } catch (error) {
-        console.error('Error with ObjectId:', error);
         res.status(400).json({ message: 'Invalid User ID format' });
       }
       break;
